@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    container_name: gt-mongo
+    volumes:
+      -   gt-mongo-volume:/data/db
+
+  gt-api:
+    image: ghcr.io/globex-trading/gt-api:1.0.0
+    ports:
+      - "3000:3000"
+    container_name: gt-api
+    depends_on:
+      - mongo
+    env_file:
+      - env/gt-api.env
+
+  gt-ws:
+    image: ghcr.io/globex-trading/gt-data-fetcher-publisher:1.0.0
+    ports:
+      - '8080:8080'
+    container_name: gt-fetcher-publisher
+    depends_on:
+      - mongo
+      - gt-api
+    env_file:
+      - env/gt-ws.env
+    volumes:
+      -   gt-ws-logs-volume:/logs
+
+
+volumes:
+  gt-mongo-volume:
+  gt-ws-logs-volume:

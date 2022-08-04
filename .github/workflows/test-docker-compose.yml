@@ -1,0 +1,43 @@
+name: Test the GT System with Docker Compose
+
+on:
+  push:
+    branches: [ main, dev ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v3
+
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Build the Images and Start in Detach Mode
+        run: docker-compose up -d
+
+      - name: Pause and Wait 10 Seconds
+        run: sleep 10s
+        shell: bash
+
+      - name: List all running Containers
+        run: docker ps
+
+      - name: View Logs of GT-API
+        run: docker logs --tail 1000 --details gt-api
+
+      - name: View Logs of GT-Fetcher-Publisher
+        run: docker logs --tail 1000 --details gt-fetcher-publisher
+
+      - name: Test `Get All Providers` Endpoint
+        run: docker run --network container:gt-api appropriate/curl -s --retry 10 --retry-connrefused http://localhost:3000/providers
+
+      - name: Stop all Containers and Remove all Images and Volumes
+        run: docker-compose down
