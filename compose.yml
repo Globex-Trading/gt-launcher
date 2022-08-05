@@ -7,6 +7,7 @@ services:
     container_name: gt-mongo
     volumes:
       -   gt-mongo-volume:/data/db
+    restart: on-failure
 
   gt-api:
     image: ghcr.io/globex-trading/gt-api:1.0.0
@@ -17,6 +18,7 @@ services:
       - mongo
     env_file:
       - env/gt-api.env
+    restart: on-failure
 
   gt-ws:
     image: ghcr.io/globex-trading/gt-data-fetcher-publisher:1.0.0
@@ -30,6 +32,7 @@ services:
       - env/gt-ws.env
     volumes:
       -   gt-ws-logs-volume:/logs
+    restart: on-failure
 
 
 volumes:
