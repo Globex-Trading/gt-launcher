@@ -28,6 +28,8 @@ services:
     depends_on:
       - mongo
       - gt-api
+    environment:
+      - custom.gt-api.hostname=http://gt-api:3000
     env_file:
       - env/gt-ws.env
     volumes:
