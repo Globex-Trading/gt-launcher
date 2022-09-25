@@ -2,7 +2,7 @@ name: Test the GT System with Docker Compose
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [ dev ]
 
 jobs:
   build:
