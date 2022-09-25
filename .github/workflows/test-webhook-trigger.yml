@@ -1,0 +1,17 @@
+name: Test the GT Webhook Trigger
+
+on:
+  push:
+    branches: [ main, dev ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Invoke EC2 Restart with Pull Webhook
+        uses: distributhor/workflow-webhook@v2
+        env:
+          webhook_url: ${{ secrets.RESTART_WEBHOOK_URL }}
+          webhook_secret: ${{ secrets.RESTART_WEBHOOK_SECRET }}
