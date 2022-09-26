@@ -1,8 +1,8 @@
-name: Test the GT System with Docker Compose
+name: Test and Deploy the GT System
 
 on:
-  push:
-    branches: [ dev ]
+  repository_dispatch:
+    types: [trigger-test-and-redeploy-event]
 
 jobs:
   build:
@@ -41,3 +41,9 @@ jobs:
 
       - name: Stop all Containers and Remove all Images and Volumes
         run: docker-compose down
+
+      - name: Invoke the EC2 restart-with-pull webhook to redeploy the System
+        uses: distributhor/workflow-webhook@v2
+        env:
+          webhook_url: ${{ secrets.RESTART_WEBHOOK_URL }}
+          webhook_secret: ${{ secrets.RESTART_WEBHOOK_SECRET }}
