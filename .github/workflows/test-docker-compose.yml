@@ -36,9 +36,6 @@ jobs:
       - name: View Logs of GT-Fetcher-Publisher
         run: docker logs --tail 1000 --details gt-fetcher-publisher
 
-      - name: Test `Get All Providers` Endpoint
-        run: docker run --network container:gt-api appropriate/curl -s --retry 10 --retry-connrefused http://localhost:3000/providers
-
       - name: Stop all Containers and Remove all Images and Volumes
         run: docker-compose down
 
