@@ -12,7 +12,7 @@ services:
   gt-api:
     image: ghcr.io/globex-trading/gt-api:1.0.0
     ports:
-      - "3000:3000"
+      - "3000:3001"
     container_name: gt-api
     depends_on:
       - mongo
