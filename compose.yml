@@ -30,6 +30,8 @@ services:
       - gt-api
     environment:
       - custom.gt-api.hostname=http://gt-api:3000
+      - server.ssl.certificate=classpath:certs/fullchain.pem
+      - server.ssl.certificate-private-key=classpath:certs/privkey.pem
     env_file:
       - env/gt-ws.env
     volumes:
