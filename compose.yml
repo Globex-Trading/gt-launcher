@@ -18,6 +18,11 @@ services:
       - mongo
     env_file:
       - env/gt-api.env
+    volumes:
+      - type: bind
+        source: ./certs
+        target: /certs
+        read_only: true
     restart: on-failure
 
   gt-ws:
@@ -30,14 +35,17 @@ services:
       - gt-api
     environment:
       - custom.gt-api.hostname=http://gt-api:3000
-      - server.ssl.certificate=classpath:certs/fullchain.pem
-      - server.ssl.certificate-private-key=classpath:certs/privkey.pem
+      - server.ssl.certificate=/certs/fullchain.pem
+      - server.ssl.certificate-private-key=/certs/privkey.pem
     env_file:
       - env/gt-ws.env
     volumes:
-      -   gt-ws-logs-volume:/logs
+      - gt-ws-logs-volume:/logs
+      - type: bind
+        source: ./certs
+        target: /certs
+        read_only: true
     restart: on-failure
-
 
 volumes:
   gt-mongo-volume:
