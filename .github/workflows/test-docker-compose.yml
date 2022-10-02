@@ -31,10 +31,10 @@ jobs:
         run: docker ps
 
       - name: View Logs of GT-API
-        run: docker logs --tail 1000 --details gt-api
+        run: docker logs --tail 1000 --details gt-api-dev
 
       - name: View Logs of GT-Fetcher-Publisher
-        run: docker logs --tail 1000 --details gt-fetcher-publisher
+        run: docker logs --tail 1000 --details gt-fetcher-publisher-dev
 
       - name: Stop all Containers and Remove all Images and Volumes
         run: docker-compose -f compose-dev.yml down
