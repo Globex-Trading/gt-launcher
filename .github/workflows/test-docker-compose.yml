@@ -2,7 +2,7 @@ name: Test and Deploy the GT System
 
 on:
   repository_dispatch:
-    types: [trigger-test-and-redeploy]
+    types: [trigger-test-and-redeploy-event]
 
 jobs:
   build:
