@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    container_name: gt-mongo-dev
+    volumes:
+      -   gt-mongo-dev-volume:/data/db
+    restart: on-failure
+
+  gt-api:
+    image: ghcr.io/globex-trading/gt-api:1.0.0
+    ports:
+      - "3000:3000"
+    container_name: gt-api-dev
+    depends_on:
+      - mongo
+    env_file:
+      - env/gt-api-dev.env
+    restart: on-failure
+
+  gt-ws:
+    image: ghcr.io/globex-trading/gt-data-fetcher-publisher:1.0.0
+    ports:
+      - '8080:8080'
+    container_name: gt-fetcher-publisher-dev
+    depends_on:
+      - mongo
+      - gt-api
+    environment:
+      - custom.gt-api.hostname=http://gt-api:3000
+    env_file:
+      - env/gt-ws-dev.env
+    volumes:
+      - gt-ws-dev-logs-volume:/logs
+    restart: on-failure
+
+volumes:
+  gt-mongo-dev-volume:
+  gt-ws-dev-logs-volume:
