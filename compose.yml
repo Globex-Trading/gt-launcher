@@ -12,7 +12,8 @@ services:
   gt-api:
     image: ghcr.io/globex-trading/gt-api:1.0.0
     ports:
-      - "3000:3001"
+      - "3000:3000"
+      - "3005:3005"
     container_name: gt-api
     depends_on:
       - mongo
@@ -34,7 +35,7 @@ services:
       - mongo
       - gt-api
     environment:
-      - custom.gt-api.hostname=http://gt-api:3000
+      - custom.gt-api.hostname=http://gt-api:3005
       - server.ssl.certificate=/certs/fullchain.pem
       - server.ssl.certificate-private-key=/certs/privkey.pem
     env_file:
