@@ -61,7 +61,7 @@ services:
     volumes:
       - type: bind
         source: ./certs
-        target: ./certs
+        target: /certs
         read_only: true
     restart: on-failure
 
