@@ -41,7 +41,7 @@ services:
     env_file:
       - env/gt-ws.env
     volumes:
-      - gt-ws-logs-volume:/logs
+      - gt-ws-logs-volume:/app/logs
       - type: bind
         source: ./certs
         target: /certs
