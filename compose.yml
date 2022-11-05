@@ -48,6 +48,23 @@ services:
         read_only: true
     restart: on-failure
 
+  gt-frontend:
+    image: ghcr.io/globex-trading/gt-front-end:1.0.0
+    ports:
+      - '80:80'
+      - '443:443'
+    container_name: gt-frontend-c1
+    depends_on:
+      - mongo
+      - gt-api
+      - gt-ws
+    volumes:
+      - type: bind
+        source: ./certs
+        target: ./certs
+        read_only: true
+    restart: on-failure
+
 volumes:
   gt-mongo-volume:
   gt-ws-logs-volume:
