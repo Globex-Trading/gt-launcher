@@ -37,7 +37,7 @@ services:
     restart: on-failure
 
   gt-frontend:
-    image: ghcr.io/globex-trading/gt-front-end:1.0.0
+    image: ghcr.io/globex-trading/gt-front-end:1.0.0.local
     ports:
       - '80:80'
       - '443:443'
@@ -46,11 +46,6 @@ services:
       - mongo
       - gt-api
       - gt-ws
-    volumes:
-      - type: bind
-        source: ./certs
-        target: /certs
-        read_only: true
     restart: on-failure
 
 volumes:
